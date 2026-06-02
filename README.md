@@ -29,6 +29,24 @@
 
 场景内需自行搭建 Canvas/UI 并挂载上述组件后才能在 Play 时看到效果。
 
+## GitHub 仓库
+
+- 远程地址：https://github.com/Seeunever/AnimalCafe
+- 默认分支：`main`
+
+首次在本机推送（若尚未上传）：
+
+```bash
+cd E:\AnimalCafe
+git push -u origin main
+```
+
+在另一台电脑克隆：
+
+```bash
+git clone https://github.com/Seeunever/AnimalCafe.git
+```
+
 ## 两地开发
 
 ```bash
