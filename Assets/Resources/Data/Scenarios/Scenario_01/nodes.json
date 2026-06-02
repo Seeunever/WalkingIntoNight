@@ -1,0 +1,371 @@
+{
+  "scenarioId": "Scenario_01",
+  "title": "咖啡馆关店后的失踪",
+  "startNodeId": "intro_01",
+  "nodes": [
+    {
+      "id": "intro_01",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "雨夜。你接到匿名邮件，来到这家即将永久关门的咖啡馆——老板昨夜失踪，店里却亮着灯。",
+      "nextNodeId": "intro_02"
+    },
+    {
+      "id": "intro_02",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "推门而入，风铃轻响。柜台后站着疲惫的店员小梅，角落里的老陈抬起浑浊的眼睛打量你。",
+      "nextNodeId": "intro_03"
+    },
+    {
+      "id": "intro_03",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "你要从哪里开始调查？",
+      "choices": [
+        { "text": "观察大厅环境", "nextNodeId": "check_spot_main" },
+        { "text": "直接询问店员小梅", "nextNodeId": "npc_mei_talk" },
+        { "text": "打开调查笔记整理思路", "nextNodeId": "hub_explore" }
+      ]
+    },
+    {
+      "id": "check_spot_main",
+      "type": "check",
+      "speaker": "侦查",
+      "text": "你环顾大厅，寻找不自然的细节……",
+      "skillId": "spot_hidden",
+      "difficulty": 0,
+      "successNodeId": "spot_success",
+      "failureNodeId": "spot_fail"
+    },
+    {
+      "id": "spot_success",
+      "type": "giveitem",
+      "itemId": "silver_coin",
+      "text": "你在吧台缝隙发现一枚冰冷的银币，年代不明。",
+      "nextNodeId": "set_found_coin"
+    },
+    {
+      "id": "spot_fail",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "灯光昏暗，你一时看不出异常。也许该找人问问。",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "set_found_coin",
+      "type": "setflag",
+      "flag": "found_coin",
+      "flagValue": true,
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "hub_explore",
+      "type": "location",
+      "speaker": "旁白",
+      "text": "你可以自由调查咖啡馆。使用左侧「地点/NPC」与角色互动，或继续推进主线。",
+      "locationId": "cafe_main",
+      "choices": [
+        { "text": "检查储藏室的门", "nextNodeId": "goto_storage", "requiredFlag": "", "blockedByFlag": "" },
+        { "text": "深入地下室（需钥匙与线索）", "nextNodeId": "goto_basement_check", "requiredItemId": "rusty_key" },
+        { "text": "阅读老板日记（若已取得）", "nextNodeId": "read_diary", "requiredItemId": "owner_diary" },
+        { "text": "推进：午夜钟声", "nextNodeId": "midnight_event", "requiredFlag": "found_coin" }
+      ]
+    },
+    {
+      "id": "goto_storage",
+      "type": "location",
+      "speaker": "旁白",
+      "text": "储藏室弥漫着受潮纸板的气味。店猫蹲在面粉袋上，注视着你。",
+      "locationId": "cafe_storage",
+      "nextNodeId": "storage_check"
+    },
+    {
+      "id": "storage_check",
+      "type": "check",
+      "speaker": "聆听",
+      "text": "你屏息聆听墙壁另一侧的动静……",
+      "skillId": "listen",
+      "difficulty": 1,
+      "successNodeId": "storage_key",
+      "failureNodeId": "hub_explore"
+    },
+    {
+      "id": "storage_key",
+      "type": "giveitem",
+      "itemId": "rusty_key",
+      "text": "门后传来轻微刮擦声。你在门框上发现一把生锈的钥匙。",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "goto_basement_check",
+      "type": "changesan",
+      "sanDelta": -2,
+      "speaker": "旁白",
+      "text": "地下室阶梯向下延伸。寒意爬上脊背。（理智 -2）",
+      "nextNodeId": "basement_enter"
+    },
+    {
+      "id": "basement_enter",
+      "type": "location",
+      "speaker": "旁白",
+      "text": "地下室墙壁布满湿滑符号。黑衣女人静立阴影中。",
+      "locationId": "cafe_basement",
+      "nextNodeId": "basement_choice"
+    },
+    {
+      "id": "basement_choice",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "空气愈发粘稠。你感到有什么在注视你。",
+      "choices": [
+        { "text": "调查墙上符号", "nextNodeId": "check_occult_wall" },
+        { "text": "与黑衣女人交谈", "nextNodeId": "npc_woman_talk" },
+        { "text": "强行前进", "nextNodeId": "combat_shadow_rat" }
+      ]
+    },
+    {
+      "id": "check_occult_wall",
+      "type": "check",
+      "speaker": "神秘学",
+      "text": "你试图辨认符号的含义……",
+      "skillId": "occult",
+      "difficulty": 1,
+      "successNodeId": "give_symbol",
+      "failureNodeId": "san_loss_fail"
+    },
+    {
+      "id": "give_symbol",
+      "type": "giveitem",
+      "itemId": "strange_symbol",
+      "text": "符号的含义刺痛你的大脑，但你拓下了一张草图。",
+      "nextNodeId": "set_know_ritual"
+    },
+    {
+      "id": "set_know_ritual",
+      "type": "setflag",
+      "flag": "know_ritual",
+      "flagValue": true,
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "san_loss_fail",
+      "type": "changesan",
+      "sanDelta": -5,
+      "speaker": "旁白",
+      "text": "符号蠕动了一下。你无法移开视线。（理智 -5）",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "npc_mei_talk",
+      "type": "dialogue",
+      "speaker": "店员小梅",
+      "text": "老板？他昨天关店前一直在地下室……我很害怕，但不敢下去。",
+      "choices": [
+        { "text": "心理学：安抚她获取细节", "nextNodeId": "check_psych_mei" },
+        { "text": "返回", "nextNodeId": "hub_explore" }
+      ]
+    },
+    {
+      "id": "check_psych_mei",
+      "type": "check",
+      "speaker": "心理学",
+      "text": "你尝试让小梅放松下来……",
+      "skillId": "psychology",
+      "difficulty": 0,
+      "successNodeId": "mei_reveal",
+      "failureNodeId": "hub_explore"
+    },
+    {
+      "id": "mei_reveal",
+      "type": "setflag",
+      "flag": "mei_trust",
+      "flagValue": true,
+      "speaker": "店员小梅",
+      "text": "她颤抖着说：「老板提到『深海咖啡馆』……午夜会听见歌声。」",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "npc_chen_talk",
+      "type": "dialogue",
+      "speaker": "常客老陈",
+      "text": "年轻人，这不是第一次有人失踪。五十年前，也有人在这下面再也没上来。",
+      "nextNodeId": "chen_library"
+    },
+    {
+      "id": "chen_library",
+      "type": "check",
+      "speaker": "图书馆使用",
+      "text": "你追问五十年前的新闻线索……",
+      "skillId": "library_use",
+      "difficulty": 0,
+      "successNodeId": "give_diary_hint",
+      "failureNodeId": "hub_explore"
+    },
+    {
+      "id": "give_diary_hint",
+      "type": "dialogue",
+      "speaker": "常客老陈",
+      "text": "「老板把日记藏在吧台第三块松动的木板下。」",
+      "nextNodeId": "bar_diary_search"
+    },
+    {
+      "id": "bar_diary_search",
+      "type": "check",
+      "speaker": "侦查",
+      "text": "你检查吧台下方……",
+      "skillId": "spot_hidden",
+      "difficulty": 0,
+      "successNodeId": "give_diary",
+      "failureNodeId": "hub_explore"
+    },
+    {
+      "id": "give_diary",
+      "type": "giveitem",
+      "itemId": "owner_diary",
+      "text": "你找到了老板的日记。最后一页写着：「午夜，歌声响起时，不要看镜子。」",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "npc_cat_talk",
+      "type": "dialogue",
+      "speaker": "店猫",
+      "text": "猫凝视地下室方向，发出低吼。",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "npc_woman_talk",
+      "type": "dialogue",
+      "speaker": "黑衣女人",
+      "text": "「调查员……你本不该来这里。他在镜子里。」",
+      "choices": [
+        { "text": "说服她让路", "nextNodeId": "check_persuade_woman" },
+        { "text": "撤退", "nextNodeId": "hub_explore" }
+      ]
+    },
+    {
+      "id": "check_persuade_woman",
+      "type": "check",
+      "speaker": "说服",
+      "text": "你尝试与她交涉……",
+      "skillId": "persuade",
+      "difficulty": 1,
+      "successNodeId": "woman_pass",
+      "failureNodeId": "combat_cultist"
+    },
+    {
+      "id": "woman_pass",
+      "type": "setflag",
+      "flag": "woman_pass",
+      "flagValue": true,
+      "speaker": "黑衣女人",
+      "text": "她侧身消失于阴影，留下一串潮湿脚印通向深处。",
+      "nextNodeId": "midnight_event"
+    },
+    {
+      "id": "npc_owner_talk",
+      "type": "dialogue",
+      "speaker": "老板的影子",
+      "text": "扭曲的人形喃喃：「咖啡……海水……一样的咸……」",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "read_diary",
+      "type": "changesan",
+      "sanDelta": -3,
+      "speaker": "旁白",
+      "text": "日记记载着连续的噩梦与镜子里的脸。（理智 -3）",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "midnight_event",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "午夜钟声敲响十二下。店内所有镜面泛起波纹，深海般的歌声从地下室涌出。",
+      "nextNodeId": "midnight_san_check"
+    },
+    {
+      "id": "midnight_san_check",
+      "type": "check",
+      "speaker": "理智",
+      "text": "面对不可名状的歌声，你努力保持清醒……（POW×5 简化为本节点 SAN 检定替代：使用 psychology 代表）",
+      "skillId": "psychology",
+      "difficulty": 1,
+      "successNodeId": "final_choice",
+      "failureNodeId": "end_madness"
+    },
+    {
+      "id": "final_choice",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "镜中浮现老板的脸。你要如何结束这一切？",
+      "choices": [
+        { "text": "用符号拓片打断仪式（需知晓仪式）", "nextNodeId": "end_good", "requiredFlag": "know_ritual" },
+        { "text": "举银币对准镜面（需发现银币）", "nextNodeId": "end_neutral", "requiredFlag": "found_coin" },
+        { "text": "拔枪射击镜面（鲁莽）", "nextNodeId": "combat_cultist" }
+      ]
+    },
+    {
+      "id": "combat_shadow_rat",
+      "type": "combat",
+      "speaker": "旁白",
+      "text": "影鼠从排水口涌出！",
+      "combatId": "shadow_rat",
+      "winNodeId": "after_rat_win",
+      "loseNodeId": "end_bad",
+      "fleeNodeId": "hub_explore"
+    },
+    {
+      "id": "after_rat_win",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "你击退了影鼠，地上留下黑色黏液。",
+      "nextNodeId": "hub_explore"
+    },
+    {
+      "id": "combat_cultist",
+      "type": "combat",
+      "speaker": "旁白",
+      "text": "狂热侍从从镜中爬出！",
+      "combatId": "cultist_acolyte",
+      "winNodeId": "after_cult_win",
+      "loseNodeId": "end_bad",
+      "fleeNodeId": "hub_explore"
+    },
+    {
+      "id": "after_cult_win",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "侍从倒下后化作盐水。钟声减弱了一瞬。",
+      "nextNodeId": "final_choice"
+    },
+    {
+      "id": "end_good",
+      "type": "end",
+      "speaker": "结局",
+      "text": "你将拓片按在镜面上，歌声戛然而止。老板跌出镜子，虚弱但活着。咖啡馆的灯一盏盏熄灭——案件告一段落。",
+      "endTitle": "生还者"
+    },
+    {
+      "id": "end_neutral",
+      "type": "end",
+      "speaker": "结局",
+      "text": "银币吸收镜面波纹，老板失踪案再无痕迹。你独自离开雨夜，心中仍有余悸。",
+      "endTitle": "无声收束"
+    },
+    {
+      "id": "end_madness",
+      "type": "end",
+      "speaker": "结局",
+      "text": "歌声钻进颅骨。你微笑着走入镜中，成为咖啡馆又一位「常客」。",
+      "endTitle": "永恒顾客"
+    },
+    {
+      "id": "end_bad",
+      "type": "end",
+      "speaker": "结局",
+      "text": "黑暗吞没视野。调查员失踪案又多了一条无名记录。",
+      "endTitle": "失踪"
+    }
+  ]
+}

@@ -1,60 +1,41 @@
-# AnimalCafe
+# AnimalCafe — 克苏鲁式跑团（2D）
 
-2D Unity（团结引擎）项目：动物咖啡馆主题，当前包含基础对话系统原型。
+单人、重剧情的 2D 跑团游戏原型，基于团结引擎 / Unity **2022.3.62t2**（URP 2D）。
 
-## 环境
+## 功能概览
 
-- 团结引擎 / Unity **2022.3.62t2**（见 `ProjectSettings/ProjectVersion.txt`）
-- URP 2D 模板
+- **角色创建**：3d6×5 滚点、技能与 HP/SAN/MP
+- **叙事引擎**：JSON 节点（对话、检定、旗标、物品、理智、战斗、结局）
+- **第一个剧本**：`Scenario_01` —《咖啡馆关店后的失踪》
+- **背包 / NPC / 地点**：地点列表 + NPC 交谈（非自由地图）
+- **战斗**：简化回合（影鼠、狂热侍从）
+- **存档**：本地 JSON，槽位 1（主菜单「继续」）
+- **Steam**：见 [STEAM_BUILD.md](STEAM_BUILD.md)（Steamworks.NET 占位）
 
-## 打开项目
+## 运行
 
-1. 克隆本仓库
-2. 用对应版本的编辑器打开项目根目录
-3. 首次打开会生成 `Library/`（已在 `.gitignore` 中忽略）
+1. 用 2022.3.62t2 打开项目根目录
+2. 打开场景 `Assets/Scenes/MainMenu.scene`（或任意已加入 Build 的场景）
+3. **Play** — UI 由代码自动生成，无需手绑 Canvas
 
-## 主要目录
+## 目录
 
 | 路径 | 说明 |
 |------|------|
-| `Assets/Scripts/` | 对话相关 C#（`DialogueManager`、`DialogueLine`、`DialogueTest`） |
-| `Assets/Scenes/` | 场景（`SampleScene.scene`） |
-| `Assets/Images/` | 图片资源 |
+| `Assets/Scripts/` | 游戏逻辑（Core / Character / Dice / Narrative / UI 等） |
+| `Assets/Resources/Data/` | 剧本、物品、NPC JSON |
+| `Assets/Scenes/` | MainMenu / CharacterCreate / Gameplay |
 
-## 对话系统（简要）
+## 修改剧本
 
-- `DialogueLine`：单条对话数据（角色名、文本、可选立绘）
-- `DialogueManager`：队列播放，需绑定 TMP 文本、按钮、立绘 Image
-- `DialogueTest`：启动时注入测试对话
+编辑 `Assets/Resources/Data/Scenarios/Scenario_01/nodes.json`，节点类型见 `StoryNodeData`。
 
-场景内需自行搭建 Canvas/UI 并挂载上述组件后才能在 Play 时看到效果。
-
-## GitHub 仓库
-
-- 远程地址：https://github.com/Seeunever/AnimalCafe
-- 默认分支：`main`
-
-首次在本机推送（若尚未上传）：
+## Git
 
 ```bash
-cd E:\AnimalCafe
-git push -u origin main
+git pull
+# 编辑后
+git add -A && git commit -m "说明" && git push
 ```
 
-在另一台电脑克隆：
-
-```bash
-git clone https://github.com/Seeunever/AnimalCafe.git
-```
-
-## 两地开发
-
-```bash
-git pull    # 开始工作前
-# ... 编辑并保存场景 ...
-git add -A
-git commit -m "描述你的修改"
-git push    # 离开前
-```
-
-请勿提交 `Library/`、`Logs/`、`UserSettings/`（已由 `.gitignore` 排除）。
+远程：https://github.com/Seeunever/AnimalCafe

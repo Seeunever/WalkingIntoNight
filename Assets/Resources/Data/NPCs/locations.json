@@ -1,0 +1,7 @@
+{
+  "locations": [
+    { "id": "cafe_main", "displayName": "咖啡馆大厅", "description": "关店后的空荡大厅，咖啡香气未散。", "npcIds": ["barista_mei", "regular_chen", "stray_cat"] },
+    { "id": "cafe_storage", "displayName": "储藏室", "description": "堆满原料与杂物，角落有一扇小门。", "npcIds": ["stray_cat"] },
+    { "id": "cafe_basement", "displayName": "地下室", "description": "潮湿阴暗，墙壁上有奇怪的痕迹。", "npcIds": ["silent_woman", "owner_ghost"] }
+  ]
+}
