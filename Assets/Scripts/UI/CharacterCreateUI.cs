@@ -1,9 +1,9 @@
-using AnimalCafe.TRPG.Character;
-using AnimalCafe.TRPG.Core;
+using WalkingIntoNight.TRPG.Character;
+using WalkingIntoNight.TRPG.Core;
 using TMPro;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.UI
+namespace WalkingIntoNight.TRPG.UI
 {
     public static class CharacterCreateUI
     {
@@ -18,9 +18,9 @@ namespace AnimalCafe.TRPG.UI
             var panel = UIBuilder.Panel("CharCreate", UIRoot.Layer,
                 new Vector2(0.1f, 0.1f), new Vector2(0.9f, 0.9f), Vector2.zero, Vector2.zero);
 
-            UIBuilder.CreateText(panel, "Title", "创建调查员", 36, TextAlignmentOptions.Top);
+            UIBuilder.CreateText(panel, "Title", "?????", 36, TextAlignmentOptions.Top);
 
-            s_nameField = CreateInput(panel, "调查员姓名");
+            s_nameField = CreateInput(panel, "?????");
             s_statsText = UIBuilder.CreateText(panel, "Stats", "", 22);
             s_statsText.rectTransform.anchorMin = new Vector2(0.05f, 0.25f);
             s_statsText.rectTransform.anchorMax = new Vector2(0.95f, 0.75f);
@@ -29,13 +29,13 @@ namespace AnimalCafe.TRPG.UI
             buttons.anchorMin = new Vector2(0.3f, 0.02f);
             buttons.anchorMax = new Vector2(0.7f, 0.22f);
 
-            UIBuilder.CreateButton(buttons, "随机滚点", () =>
+            UIBuilder.CreateButton(buttons, "????", () =>
             {
                 s_preview = CharacterCreator.RollRandom(GetName());
                 RefreshStats();
             });
 
-            UIBuilder.CreateButton(buttons, "开始调查", () =>
+            UIBuilder.CreateButton(buttons, "????", () =>
             {
                 if (s_preview == null)
                     s_preview = CharacterCreator.RollRandom(GetName());
@@ -47,9 +47,9 @@ namespace AnimalCafe.TRPG.UI
                 SceneLoader.LoadGameplay();
             });
 
-            UIBuilder.CreateButton(buttons, "返回", SceneLoader.LoadMainMenu);
+            UIBuilder.CreateButton(buttons, "??", SceneLoader.LoadMainMenu);
 
-            s_preview = CharacterCreator.RollRandom("调查员");
+            s_preview = CharacterCreator.RollRandom("???");
             RefreshStats();
         }
 
@@ -57,7 +57,7 @@ namespace AnimalCafe.TRPG.UI
         {
             return s_nameField != null && !string.IsNullOrWhiteSpace(s_nameField.text)
                 ? s_nameField.text
-                : "无名调查员";
+                : "?????";
         }
 
         static void RefreshStats()
@@ -68,8 +68,8 @@ namespace AnimalCafe.TRPG.UI
                 $"STR {s_preview.STR}  CON {s_preview.CON}  POW {s_preview.POW}  DEX {s_preview.DEX}\n" +
                 $"APP {s_preview.APP}  INT {s_preview.INT}  EDU {s_preview.EDU}  SIZ {s_preview.SIZ}\n" +
                 $"HP {s_preview.HP}/{s_preview.MaxHP}  SAN {s_preview.SAN}/{s_preview.MaxSAN}  MP {s_preview.MP}/{s_preview.MaxMP}\n\n" +
-                $"侦查 {s_preview.GetSkill("spot_hidden")}  聆听 {s_preview.GetSkill("listen")}  图书馆 {s_preview.GetSkill("library_use")}\n" +
-                $"心理学 {s_preview.GetSkill("psychology")}  说服 {s_preview.GetSkill("persuade")}  格斗 {s_preview.GetSkill("fight")}";
+                $"?? {s_preview.GetSkill("spot_hidden")}  ?? {s_preview.GetSkill("listen")}  ??? {s_preview.GetSkill("library_use")}\n" +
+                $"??? {s_preview.GetSkill("psychology")}  ?? {s_preview.GetSkill("persuade")}  ?? {s_preview.GetSkill("fight")}";
         }
 
         static TMP_InputField CreateInput(Transform parent, string placeholder)

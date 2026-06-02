@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     public static class TRPGRuntimeInit
     {

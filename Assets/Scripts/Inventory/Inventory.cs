@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Inventory
+namespace WalkingIntoNight.TRPG.Inventory
 {
     public class Inventory
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace AnimalCafe.TRPG.Inventory
+namespace WalkingIntoNight.TRPG.Inventory
 {
     [Serializable]
     public class ItemDefinition

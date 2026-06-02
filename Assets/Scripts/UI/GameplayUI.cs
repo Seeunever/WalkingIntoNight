@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Character;
-using AnimalCafe.TRPG.Combat;
-using AnimalCafe.TRPG.Core;
-using AnimalCafe.TRPG.Dice;
-using AnimalCafe.TRPG.Inventory;
-using AnimalCafe.TRPG.Narrative;
-using AnimalCafe.TRPG.NPC;
+using WalkingIntoNight.TRPG.Character;
+using WalkingIntoNight.TRPG.Combat;
+using WalkingIntoNight.TRPG.Core;
+using WalkingIntoNight.TRPG.Dice;
+using WalkingIntoNight.TRPG.Inventory;
+using WalkingIntoNight.TRPG.Narrative;
+using WalkingIntoNight.TRPG.NPC;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AnimalCafe.TRPG.UI
+namespace WalkingIntoNight.TRPG.UI
 {
     public static class GameplayUI
     {
@@ -31,7 +31,7 @@ namespace AnimalCafe.TRPG.UI
             var root = UIBuilder.Panel("GameplayRoot", UIRoot.Layer, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero,
                 new Color(0.05f, 0.05f, 0.08f, 1f));
 
-            UIBuilder.CreateText(root, "Header", "克苏鲁式跑团 · 咖啡馆关店后的失踪", 26,
+            UIBuilder.CreateText(root, "Header", "WalkingIntoNight � ????", 26,
                 TextAlignmentOptions.Top).rectTransform.anchorMax = new Vector2(1, 0.96f);
 
             var logPanel = UIBuilder.Panel("Log", root, new Vector2(0.02f, 0.58f), new Vector2(0.35f, 0.94f),
@@ -52,11 +52,11 @@ namespace AnimalCafe.TRPG.UI
             var menuBar = UIBuilder.VerticalLayout(root, "Menu");
             menuBar.anchorMin = new Vector2(0.02f, 0.02f);
             menuBar.anchorMax = new Vector2(0.35f, 0.55f);
-            UIBuilder.CreateButton(menuBar, "角色卡", ShowCharacterSheet);
-            UIBuilder.CreateButton(menuBar, "背包", ShowInventory);
-            UIBuilder.CreateButton(menuBar, "地点 / NPC", ShowLocationExplorer);
-            UIBuilder.CreateButton(menuBar, "存档 (槽位1)", SaveGame);
-            UIBuilder.CreateButton(menuBar, "主菜单", SceneLoader.LoadMainMenu);
+            UIBuilder.CreateButton(menuBar, "???", ShowCharacterSheet);
+            UIBuilder.CreateButton(menuBar, "??", ShowInventory);
+            UIBuilder.CreateButton(menuBar, "?? / NPC", ShowLocationExplorer);
+            UIBuilder.CreateButton(menuBar, "?? (??1)", SaveGame);
+            UIBuilder.CreateButton(menuBar, "???", SceneLoader.LoadMainMenu);
 
             s_runner = new ScenarioRunner();
             s_runner.OnLog += AppendLog;
@@ -86,12 +86,12 @@ namespace AnimalCafe.TRPG.UI
             var type = StoryNodeTypeParser.Parse(node.type);
             if (type == StoryNodeType.End)
             {
-                UIBuilder.CreateButton(s_choiceArea, "返回主菜单", SceneLoader.LoadMainMenu);
+                UIBuilder.CreateButton(s_choiceArea, "?????", SceneLoader.LoadMainMenu);
                 return;
             }
 
             if ((node.choices == null || node.choices.Count == 0) && !string.IsNullOrEmpty(node.nextNodeId))
-                UIBuilder.CreateButton(s_choiceArea, "继续", () => s_runner.AdvanceTo(node.nextNodeId));
+                UIBuilder.CreateButton(s_choiceArea, "??", () => s_runner.AdvanceTo(node.nextNodeId));
         }
 
         static void PresentChoices(List<StoryChoiceData> choices)
@@ -122,7 +122,7 @@ namespace AnimalCafe.TRPG.UI
 
         static void OnEnded()
         {
-            AppendLog("—— 剧本结束 ——");
+            AppendLog("?? ???? ??");
         }
 
         static void ShowCharacterSheet()
@@ -131,13 +131,13 @@ namespace AnimalCafe.TRPG.UI
             var inv = GameStateManager.Instance.Investigator;
             if (inv == null) return;
 
-            s_overlayPanel = CreateOverlay("角色卡");
-            var text = UIBuilder.CreateText(s_overlayPanel.transform, "Sheet",
+            s_overlayPanel = CreateOverlay("???");
+            UIBuilder.CreateText(s_overlayPanel.transform, "Sheet",
                 $"{inv.Name}\nHP {inv.HP}/{inv.MaxHP}  SAN {inv.SAN}/{inv.MaxSAN}  MP {inv.MP}/{inv.MaxMP}\n\n" +
                 $"STR {inv.STR} CON {inv.CON} POW {inv.POW} DEX {inv.DEX}\n" +
                 $"APP {inv.APP} INT {inv.INT} EDU {inv.EDU} SIZ {inv.SIZ}\n\n" +
-                $"侦查 {inv.GetSkill("spot_hidden")} 聆听 {inv.GetSkill("listen")} 图书馆 {inv.GetSkill("library_use")}\n" +
-                $"心理学 {inv.GetSkill("psychology")} 说服 {inv.GetSkill("persuade")} 格斗 {inv.GetSkill("fight")} 射击 {inv.GetSkill("firearms")}",
+                $"?? {inv.GetSkill("spot_hidden")} ?? {inv.GetSkill("listen")} ??? {inv.GetSkill("library_use")}\n" +
+                $"??? {inv.GetSkill("psychology")} ?? {inv.GetSkill("persuade")} ?? {inv.GetSkill("fight")} ?? {inv.GetSkill("firearms")}",
                 24);
             AddCloseButton(s_overlayPanel);
         }
@@ -145,7 +145,7 @@ namespace AnimalCafe.TRPG.UI
         static void ShowInventory()
         {
             CloseOverlay();
-            s_overlayPanel = CreateOverlay("背包");
+            s_overlayPanel = CreateOverlay("??");
             var layout = UIBuilder.VerticalLayout(s_overlayPanel.transform, "Items");
 
             foreach (var itemId in GameStateManager.Instance.Inventory.Items)
@@ -153,8 +153,7 @@ namespace AnimalCafe.TRPG.UI
                 var def = ItemDatabase.Get(itemId);
                 var label = def != null ? def.displayName : itemId;
                 var desc = def?.description ?? "";
-                var id = itemId;
-                UIBuilder.CreateButton(layout, $"{label} — {desc}", () =>
+                UIBuilder.CreateButton(layout, $"{label} ? {desc}", () =>
                 {
                     if (def != null && def.consumable)
                     {
@@ -178,24 +177,24 @@ namespace AnimalCafe.TRPG.UI
                 inv.SAN = Mathf.Min(inv.MaxSAN, inv.SAN + def.healSan);
 
             GameStateManager.Instance.Inventory.RemoveItem(def.id);
-            AppendLog($"使用了 {def.displayName}");
+            AppendLog($"??? {def.displayName}");
         }
 
         static void ShowLocationExplorer()
         {
             CloseOverlay();
-            s_overlayPanel = CreateOverlay("地点与 NPC");
+            s_overlayPanel = CreateOverlay("??? NPC");
             var layout = UIBuilder.VerticalLayout(s_overlayPanel.transform, "Loc");
 
             var gs = GameStateManager.Instance;
             var current = NPCDatabase.GetLocation(gs.CurrentLocationId);
 
-            UIBuilder.CreateText(layout, "Current", $"当前：{current?.displayName ?? gs.CurrentLocationId}\n{current?.description}", 22);
+            UIBuilder.CreateText(layout, "Current", $"???{current?.displayName ?? gs.CurrentLocationId}\n{current?.description}", 22);
 
             foreach (var loc in NPCDatabase.AllLocations)
             {
                 var locId = loc.id;
-                UIBuilder.CreateButton(layout, $"前往 {loc.displayName}", () => s_runner.TravelToLocation(locId));
+                UIBuilder.CreateButton(layout, $"?? {loc.displayName}", () => s_runner.TravelToLocation(locId));
             }
 
             if (current?.npcIds != null)
@@ -205,7 +204,7 @@ namespace AnimalCafe.TRPG.UI
                     var npc = NPCDatabase.GetNpc(npcId);
                     if (npc == null) continue;
                     var id = npcId;
-                    UIBuilder.CreateButton(layout, $"交谈：{npc.displayName}", () =>
+                    UIBuilder.CreateButton(layout, $"???{npc.displayName}", () =>
                     {
                         CloseOverlay();
                         s_runner.TalkToNpc(id);
@@ -213,7 +212,7 @@ namespace AnimalCafe.TRPG.UI
                 }
             }
 
-            UIBuilder.CreateButton(layout, "继续剧情", () =>
+            UIBuilder.CreateButton(layout, "????", () =>
             {
                 CloseOverlay();
                 s_runner.AdvanceTo(gs.CurrentNodeId);
@@ -228,7 +227,7 @@ namespace AnimalCafe.TRPG.UI
             var combat = s_runner.Combat;
             if (!combat.IsActive) return;
 
-            s_overlayPanel = CreateOverlay("战斗");
+            s_overlayPanel = CreateOverlay("??");
             var layout = UIBuilder.VerticalLayout(s_overlayPanel.transform, "CombatUI");
 
             var player = combat.GetPlayer();
@@ -239,11 +238,11 @@ namespace AnimalCafe.TRPG.UI
             {
                 var idx = i;
                 var e = enemies[i];
-                UIBuilder.CreateButton(layout, $"攻击 {e.displayName} (HP {e.HP})", () => combat.PlayerAttack(idx));
+                UIBuilder.CreateButton(layout, $"?? {e.displayName} (HP {e.HP})", () => combat.PlayerAttack(idx));
             }
 
-            UIBuilder.CreateButton(layout, "闪避", combat.PlayerDodge);
-            UIBuilder.CreateButton(layout, "逃跑", combat.PlayerFlee);
+            UIBuilder.CreateButton(layout, "??", combat.PlayerDodge);
+            UIBuilder.CreateButton(layout, "??", combat.PlayerFlee);
         }
 
         static GameObject CreateOverlay(string title)
@@ -256,7 +255,7 @@ namespace AnimalCafe.TRPG.UI
 
         static void AddCloseButton(GameObject panel)
         {
-            var btn = UIBuilder.CreateButton(panel.transform, "关闭", CloseOverlay);
+            var btn = UIBuilder.CreateButton(panel.transform, "??", CloseOverlay);
             var rt = btn.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.3f, 0.02f);
             rt.anchorMax = new Vector2(0.7f, 0.08f);
@@ -274,7 +273,7 @@ namespace AnimalCafe.TRPG.UI
         {
             var data = GameStateManager.Instance.ToSaveData();
             SaveSystem.Save(0, data);
-            AppendLog("已存档到槽位 1");
+            AppendLog("?????? 1");
         }
     }
 }

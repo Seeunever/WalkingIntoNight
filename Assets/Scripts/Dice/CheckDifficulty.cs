@@ -1,4 +1,4 @@
-namespace AnimalCafe.TRPG.Dice
+namespace WalkingIntoNight.TRPG.Dice
 {
     public enum CheckDifficulty
     {

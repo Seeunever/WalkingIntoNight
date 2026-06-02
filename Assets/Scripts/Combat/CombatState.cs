@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Combat
+namespace WalkingIntoNight.TRPG.Combat
 {
     [Serializable]
     public class CombatantData

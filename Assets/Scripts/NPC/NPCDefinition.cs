@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.NPC
+namespace WalkingIntoNight.TRPG.NPC
 {
     [Serializable]
     public class NPCDefinition

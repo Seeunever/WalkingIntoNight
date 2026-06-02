@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Character;
+using WalkingIntoNight.TRPG.Character;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     [Serializable]
     public class GameSaveData

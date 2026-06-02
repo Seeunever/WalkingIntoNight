@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     public static class SaveSystem
     {

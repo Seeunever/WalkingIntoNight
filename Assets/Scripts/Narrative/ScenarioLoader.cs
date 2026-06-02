@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Narrative
+namespace WalkingIntoNight.TRPG.Narrative
 {
     public static class ScenarioLoader
     {

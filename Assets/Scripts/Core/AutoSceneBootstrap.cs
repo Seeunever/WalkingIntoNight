@@ -1,8 +1,8 @@
-using AnimalCafe.TRPG.UI;
+using WalkingIntoNight.TRPG.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     public static class AutoSceneBootstrap
     {

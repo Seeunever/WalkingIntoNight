@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Character;
-using AnimalCafe.TRPG.Combat;
-using AnimalCafe.TRPG.Inventory;
-using AnimalCafe.TRPG.Narrative;
+using WalkingIntoNight.TRPG.Character;
+using WalkingIntoNight.TRPG.Combat;
+using WalkingIntoNight.TRPG.Inventory;
+using WalkingIntoNight.TRPG.Narrative;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     public class GameStateManager : MonoBehaviour
     {

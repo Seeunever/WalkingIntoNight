@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Dice
+namespace WalkingIntoNight.TRPG.Dice
 {
     public static class DiceRoller
     {

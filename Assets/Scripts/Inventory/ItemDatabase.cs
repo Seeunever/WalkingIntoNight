@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Inventory
+namespace WalkingIntoNight.TRPG.Inventory
 {
     public static class ItemDatabase
     {

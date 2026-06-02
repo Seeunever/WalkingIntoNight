@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Dice;
+using WalkingIntoNight.TRPG.Dice;
 
-namespace AnimalCafe.TRPG.Narrative
+namespace WalkingIntoNight.TRPG.Narrative
 {
     [Serializable]
     public class StoryChoiceData

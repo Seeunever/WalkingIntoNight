@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Character
+namespace WalkingIntoNight.TRPG.Character
 {
     public class Investigator
     {

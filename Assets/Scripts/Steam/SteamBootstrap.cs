@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Steam
+namespace WalkingIntoNight.TRPG.Steam
 {
     /// <summary>
     /// Steamworks 占位：在 Package Manager 或导入 Steamworks.NET 后定义 STEAMWORKS 符号并接入 SDK。

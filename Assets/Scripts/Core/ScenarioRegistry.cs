@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Core
+namespace WalkingIntoNight.TRPG.Core
 {
     public class ScenarioRegistryEntry
     {
@@ -20,8 +20,8 @@ namespace AnimalCafe.TRPG.Core
             new ScenarioRegistryEntry
             {
                 Id = DefaultScenarioId,
-                DisplayName = "咖啡馆关店后的失踪",
-                Description = "单地点调查剧本。关店后的咖啡馆里，老板失踪了……",
+                DisplayName = "?????????",
+                Description = "????????????????????????",
                 ResourcePath = "Data/Scenarios/Scenario_01/nodes"
             }
         };

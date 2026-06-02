@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Character;
-using AnimalCafe.TRPG.Combat;
-using AnimalCafe.TRPG.Core;
-using AnimalCafe.TRPG.Dice;
-using AnimalCafe.TRPG.Inventory;
-using AnimalCafe.TRPG.NPC;
+using WalkingIntoNight.TRPG.Character;
+using WalkingIntoNight.TRPG.Combat;
+using WalkingIntoNight.TRPG.Core;
+using WalkingIntoNight.TRPG.Dice;
+using WalkingIntoNight.TRPG.Inventory;
+using WalkingIntoNight.TRPG.NPC;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Narrative
+namespace WalkingIntoNight.TRPG.Narrative
 {
     public class ScenarioRunner
     {

@@ -1,6 +1,6 @@
-using AnimalCafe.TRPG.Core;
+using WalkingIntoNight.TRPG.Core;
 
-namespace AnimalCafe.TRPG.Narrative
+namespace WalkingIntoNight.TRPG.Narrative
 {
     public static class ConditionEvaluator
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using AnimalCafe.TRPG.Character;
-using AnimalCafe.TRPG.Core;
-using AnimalCafe.TRPG.Dice;
+using WalkingIntoNight.TRPG.Character;
+using WalkingIntoNight.TRPG.Core;
+using WalkingIntoNight.TRPG.Dice;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Combat
+namespace WalkingIntoNight.TRPG.Combat
 {
     public class CombatManager
     {

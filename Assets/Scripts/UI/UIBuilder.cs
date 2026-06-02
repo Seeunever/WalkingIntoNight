@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AnimalCafe.TRPG.UI
+namespace WalkingIntoNight.TRPG.UI
 {
     public static class UIBuilder
     {

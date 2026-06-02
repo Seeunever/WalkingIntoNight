@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Combat
+namespace WalkingIntoNight.TRPG.Combat
 {
     public class CombatEncounterDefinition
     {

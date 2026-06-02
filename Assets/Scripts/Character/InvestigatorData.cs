@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AnimalCafe.TRPG.Character
+namespace WalkingIntoNight.TRPG.Character
 {
     [Serializable]
     public class SkillEntry

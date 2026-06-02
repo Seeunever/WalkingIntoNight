@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.Character
+namespace WalkingIntoNight.TRPG.Character
 {
     public static class CharacterCreator
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AnimalCafe.TRPG.UI
+namespace WalkingIntoNight.TRPG.UI
 {
     public static class UIRoot
     {
