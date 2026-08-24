@@ -1,0 +1,13 @@
+{
+  "relationships": [
+    {
+      "id": "mei_chen",
+      "fromNpcId": "barista_mei",
+      "toNpcId": "regular_chen",
+      "type": "mutual_support",
+      "label": "互相照应",
+      "description": "老陈知道小梅害怕地下室，每晚都会留到打烊。",
+      "unlockFlag": "mei_trust"
+    }
+  ]
+}

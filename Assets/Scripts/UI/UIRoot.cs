@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace WalkingIntoNight.TRPG.UI
 {
@@ -9,6 +10,7 @@ namespace WalkingIntoNight.TRPG.UI
 
         public static void EnsureCanvas()
         {
+            EnsureEventSystem();
             if (Canvas != null) return;
 
             var go = new GameObject("TRPG_Canvas");
@@ -28,6 +30,16 @@ namespace WalkingIntoNight.TRPG.UI
             Layer.offsetMax = Vector2.zero;
 
             Object.DontDestroyOnLoad(go);
+        }
+
+        static void EnsureEventSystem()
+        {
+            if (EventSystem.current != null) return;
+
+            var eventSystemGo = new GameObject("TRPG_EventSystem");
+            eventSystemGo.AddComponent<EventSystem>();
+            eventSystemGo.AddComponent<StandaloneInputModule>();
+            Object.DontDestroyOnLoad(eventSystemGo);
         }
 
         public static void Clear()

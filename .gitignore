@@ -19,7 +19,11 @@
 *.DotSettings.user
 
 .vs/
+.vscode/
 .gradle/
+
+__pycache__/
+*.py[cod]
 
 ExportedObj/
 .consulo/

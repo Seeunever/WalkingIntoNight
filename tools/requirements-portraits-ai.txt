@@ -1,0 +1,8 @@
+# AI portrait batch generation (generate_portraits_ai.py)
+torch>=2.5
+diffusers==0.30.3
+transformers==4.44.2
+accelerate
+safetensors
+pillow
+numpy

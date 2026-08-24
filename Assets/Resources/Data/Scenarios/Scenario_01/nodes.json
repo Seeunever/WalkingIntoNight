@@ -7,25 +7,106 @@
       "id": "intro_01",
       "type": "dialogue",
       "speaker": "旁白",
-      "text": "雨夜。你接到匿名邮件，来到这家即将永久关门的咖啡馆——老板昨夜失踪，店里却亮着灯。",
+      "text": "邮件没有署名，只有一句话：如果你看见它，说明我已经错过了打烊。请在午夜前来夜航咖啡馆，别让里面只剩一盏灯。",
+      "nextNodeId": "intro_motive"
+    },
+    {
+      "id": "intro_motive",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "雨落在车窗上，咖啡馆的招牌隔着水痕发白。你仍然可以掉头。你为什么继续往前？",
+      "choices": [
+        { "text": "这是委托。我来把事情做完。", "nextNodeId": "set_motive_duty" },
+        { "text": "这扇门让我想起一个等过人的地方。", "nextNodeId": "set_motive_memory" },
+        { "text": "有人求救，我不想假装没看见。", "nextNodeId": "set_motive_kindness" }
+      ]
+    },
+    {
+      "id": "set_motive_duty",
+      "type": "setflag",
+      "flag": "motive_duty",
+      "flagValue": true,
+      "speaker": "旁白",
+      "text": "你把邮件归进委托记录，推门下车。",
+      "nextNodeId": "intro_02"
+    },
+    {
+      "id": "set_motive_memory",
+      "type": "setflag",
+      "flag": "motive_memory",
+      "flagValue": true,
+      "speaker": "旁白",
+      "text": "你没有继续追究那个念头。至少今晚没有。",
+      "nextNodeId": "intro_02"
+    },
+    {
+      "id": "set_motive_kindness",
+      "type": "setflag",
+      "flag": "motive_kindness",
+      "flagValue": true,
+      "speaker": "旁白",
+      "text": "这理由不够专业，但足够让你在雨里撑开伞。",
       "nextNodeId": "intro_02"
     },
     {
       "id": "intro_02",
       "type": "dialogue",
       "speaker": "旁白",
-      "text": "推门而入，风铃轻响。柜台后站着疲惫的店员小梅，角落里的老陈抬起浑浊的眼睛打量你。",
+      "text": "门牌已经翻到「休息」，里面却亮着最后一盏暖黄的灯。吧台摆着三只杯子：两杯咖啡已经冷透，第三只没有倒咖啡，杯柄朝门，瓷壁还留着刚被热水烫过的薄雾。",
+      "locationId": "cafe_main",
+      "nextNodeId": "intro_cat_mirror"
+    },
+    {
+      "id": "intro_cat_mirror",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "风铃只响了一声。店猫从你脚边绕开，宁可贴着桌腿，也不肯经过墙上的大镜子。你抬头时，它的倒影迟了半拍才转过脸。",
+      "nextNodeId": "set_cat_mirror_intro"
+    },
+    {
+      "id": "set_cat_mirror_intro",
+      "type": "setflag",
+      "flag": "cat_mirror",
+      "flagValue": true,
+      "flagNotice": "店猫的倒影比它慢了半拍。",
       "nextNodeId": "intro_03"
     },
     {
       "id": "intro_03",
       "type": "dialogue",
-      "speaker": "旁白",
-      "text": "你要从哪里开始调查？",
+      "speaker": "店员小梅",
+      "text": "“我们已经打烊了。”柜台后的小梅看了一眼没有落锁的门，又改口，“应该说，我们本来打算永远打烊。”",
       "choices": [
+        { "text": "出示匿名邮件", "nextNodeId": "intro_email_shown" },
+        { "text": "先问第三只杯子给谁", "nextNodeId": "intro_third_cup" },
         { "text": "观察大厅环境", "nextNodeId": "check_spot_main" },
+        { "text": "先自己看看", "nextNodeId": "intro_hall_threads" }
+      ]
+    },
+    {
+      "id": "intro_email_shown",
+      "type": "dialogue",
+      "speaker": "店员小梅",
+      "text": "小梅读到「午夜」两个字，手指停在纸边：“老板昨晚没有回家。他从不把最后一盏灯留给别人，也不会拿关店这种事开玩笑。”",
+      "nextNodeId": "intro_hall_threads"
+    },
+    {
+      "id": "intro_third_cup",
+      "type": "dialogue",
+      "speaker": "店员小梅",
+      "text": "“不是给客人的。”小梅把第三只杯子往里推了半寸，目光却落到角落的老陈身上，“老板说，等人到齐再倒。可昨晚少了一个人。”",
+      "nextNodeId": "intro_hall_threads"
+    },
+    {
+      "id": "intro_hall_threads",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "小梅守着最后一盏灯；老陈面前放着两只杯碟；店猫则始终避开那面镜子。三条沉默都在等人先开口。",
+      "choices": [
         { "text": "直接询问店员小梅", "nextNodeId": "npc_mei_talk" },
-        { "text": "打开调查笔记整理思路", "nextNodeId": "hub_explore" }
+        { "text": "问问角落里的老陈", "nextNodeId": "npc_chen_talk" },
+        { "text": "跟着避开镜子的店猫", "nextNodeId": "npc_cat_talk" },
+        { "text": "先自己看看", "nextNodeId": "hub_explore" }
       ]
     },
     {
@@ -49,27 +130,29 @@
       "id": "spot_fail",
       "type": "dialogue",
       "speaker": "旁白",
-      "text": "灯光昏暗，你一时看不出异常。也许该找人问问。",
-      "nextNodeId": "hub_explore"
+      "text": "雨水和灯影把每一处反光都搅在一起。你暂时分不清异常来自哪里，但大厅里的三位证人仍在。",
+      "nextNodeId": "intro_hall_threads"
     },
     {
       "id": "set_found_coin",
       "type": "setflag",
       "flag": "found_coin",
       "flagValue": true,
-      "nextNodeId": "hub_explore"
+      "flagNotice": "银币会对午夜的镜面异象产生回应。",
+      "nextNodeId": "intro_hall_threads"
     },
     {
       "id": "hub_explore",
       "type": "location",
       "speaker": "旁白",
       "text": "你可以自由调查咖啡馆。使用左侧「地点/NPC」与角色互动，或继续推进主线。",
-      "locationId": "cafe_main",
+      "locationId": "",
+      "allowExploration": true,
       "choices": [
         { "text": "检查储藏室的门", "nextNodeId": "goto_storage", "requiredFlag": "", "blockedByFlag": "" },
-        { "text": "深入地下室（需钥匙与线索）", "nextNodeId": "goto_basement_check", "requiredItemId": "rusty_key" },
-        { "text": "阅读老板日记（若已取得）", "nextNodeId": "read_diary", "requiredItemId": "owner_diary" },
-        { "text": "推进：午夜钟声", "nextNodeId": "midnight_event", "requiredFlag": "found_coin" }
+        { "text": "深入地下室（需钥匙）", "nextNodeId": "goto_basement_check", "requiredItemId": "rusty_key", "unavailableReason": "需要先在储藏室找到生锈的钥匙。" },
+        { "text": "阅读老板日记（若已取得）", "nextNodeId": "read_diary", "requiredItemId": "owner_diary", "unavailableReason": "需要先从吧台暗格取得老板的日记。" },
+        { "text": "推进：午夜钟声", "nextNodeId": "midnight_event", "requiredFlag": "found_coin", "unavailableReason": "需要先找到会对镜面异象产生回应的银币。" }
       ]
     },
     {
@@ -146,6 +229,7 @@
       "type": "setflag",
       "flag": "know_ritual",
       "flagValue": true,
+      "flagNotice": "你已读懂墙上符号：符号拓片可以打断镜中仪式。",
       "nextNodeId": "hub_explore"
     },
     {
@@ -160,17 +244,17 @@
       "id": "npc_mei_talk",
       "type": "dialogue",
       "speaker": "店员小梅",
-      "text": "老板？他昨天关店前一直在地下室……我很害怕，但不敢下去。",
+      "text": "“老板不是会失约的人。他哪怕发烧，也会等我走过街口再关最后一盏灯。昨晚灯没有灭，我却先走了。”",
       "choices": [
-        { "text": "心理学：安抚她获取细节", "nextNodeId": "check_psych_mei" },
-        { "text": "返回", "nextNodeId": "hub_explore" }
+        { "text": "心理学：请她把昨晚慢慢说一遍", "nextNodeId": "check_psych_mei" },
+        { "text": "暂时离开", "nextNodeId": "hub_explore" }
       ]
     },
     {
       "id": "check_psych_mei",
       "type": "check",
       "speaker": "心理学",
-      "text": "你尝试让小梅放松下来……",
+      "text": "你没有追问地下室，只问昨晚是谁替她关了灯。",
       "skillId": "psychology",
       "difficulty": 0,
       "successNodeId": "mei_reveal",
@@ -182,14 +266,14 @@
       "flag": "mei_trust",
       "flagValue": true,
       "speaker": "店员小梅",
-      "text": "她颤抖着说：「老板提到『深海咖啡馆』……午夜会听见歌声。」",
+      "text": "她颤抖着说：「老板提到『深海咖啡馆』……午夜会听见歌声。老陈也听见过，他一直替我守着大厅。」",
       "nextNodeId": "hub_explore"
     },
     {
       "id": "npc_chen_talk",
       "type": "dialogue",
       "speaker": "常客老陈",
-      "text": "年轻人，这不是第一次有人失踪。五十年前，也有人在这下面再也没上来。",
+      "text": "老陈把一张发黄的报纸折回原样：“报纸上的事，隔得久了，看起来都像发生在别人身上。可这不是第一次有人从这里消失。”",
       "nextNodeId": "chen_library"
     },
     {
@@ -230,7 +314,15 @@
       "id": "npc_cat_talk",
       "type": "dialogue",
       "speaker": "店猫",
-      "text": "猫凝视地下室方向，发出低吼。",
+      "text": "店猫没有回应你的招呼。它在大镜子两步外停下，盯着镜中的自己。倒影先它一步弓起背，猫随即转身，朝储藏室门口走去。",
+      "nextNodeId": "set_cat_guided"
+    },
+    {
+      "id": "set_cat_guided",
+      "type": "setflag",
+      "flag": "cat_guided",
+      "flagValue": true,
+      "flagNotice": "店猫反复避开镜面，并朝储藏室引路。",
       "nextNodeId": "hub_explore"
     },
     {
@@ -292,7 +384,25 @@
       "skillId": "psychology",
       "difficulty": 1,
       "successNodeId": "final_choice",
-      "failureNodeId": "end_madness"
+      "failureNodeId": "midnight_failure_choice"
+    },
+    {
+      "id": "midnight_failure_choice",
+      "type": "dialogue",
+      "speaker": "旁白",
+      "text": "歌声钻进颅骨，你几乎忘了自己为何而来。最后一丝清醒仍在提醒你：选择权还没有被夺走。",
+      "choices": [
+        { "text": "咬破舌尖，忍痛保持清醒（SAN -5）", "nextNodeId": "midnight_failure_cost" },
+        { "text": "回应镜中的歌声", "nextNodeId": "end_madness" }
+      ]
+    },
+    {
+      "id": "midnight_failure_cost",
+      "type": "changesan",
+      "sanDelta": -5,
+      "speaker": "旁白",
+      "text": "疼痛让现实重新有了边缘。你摇晃着站稳，面对镜中的老板。（理智 -5）",
+      "nextNodeId": "final_choice"
     },
     {
       "id": "final_choice",
@@ -300,8 +410,8 @@
       "speaker": "旁白",
       "text": "镜中浮现老板的脸。你要如何结束这一切？",
       "choices": [
-        { "text": "用符号拓片打断仪式（需知晓仪式）", "nextNodeId": "end_good", "requiredFlag": "know_ritual" },
-        { "text": "举银币对准镜面（需发现银币）", "nextNodeId": "end_neutral", "requiredFlag": "found_coin" },
+        { "text": "用符号拓片打断仪式（需知晓仪式）", "nextNodeId": "end_good", "requiredFlag": "know_ritual", "unavailableReason": "需要先读懂地下室墙上的仪式符号。" },
+        { "text": "举银币对准镜面（需发现银币）", "nextNodeId": "end_neutral", "requiredFlag": "found_coin", "unavailableReason": "需要先在大厅找到那枚银币。" },
         { "text": "拔枪射击镜面（鲁莽）", "nextNodeId": "combat_cultist" }
       ]
     },

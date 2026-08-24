@@ -1,0 +1,23 @@
+{
+    "name": "WalkingIntoNight.Tests.EditMode",
+    "rootNamespace": "WalkingIntoNight.TRPG.Tests.EditMode",
+    "references": [
+        "WalkingIntoNight.Runtime",
+        "WalkingIntoNight.Editor",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false,
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

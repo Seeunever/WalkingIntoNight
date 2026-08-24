@@ -34,9 +34,9 @@ namespace WalkingIntoNight.TRPG.Inventory
         {
             Add(new ItemDefinition { id = "flashlight", displayName = "手电筒", description = "照亮黑暗角落。", consumable = false });
             Add(new ItemDefinition { id = "notebook", displayName = "调查笔记", description = "记录线索的笔记本。", consumable = false });
-            Add(new ItemDefinition { id = "rusty_key", displayName = "生锈的钥匙", description = "也许能打开储藏室。", consumable = false });
-            Add(new ItemDefinition { id = "first_aid_kit", displayName = "急救包", description = "恢复少量生命值。", consumable = true, healHp = 3 });
-            Add(new ItemDefinition { id = "calming_tea", displayName = "安神茶", description = "恢复少量理智。", consumable = true, healSan = 5 });
+            Add(new ItemDefinition { id = "rusty_key", displayName = "生锈的钥匙", description = "开启通往地下室的旧铁门。", consumable = false });
+            Add(new ItemDefinition { id = "first_aid_kit", displayName = "急救包", description = "恢复 3 点 HP。", consumable = true, healHp = 3 });
+            Add(new ItemDefinition { id = "calming_tea", displayName = "安神茶", description = "恢复 5 点 SAN。", consumable = true, healSan = 5 });
             Add(new ItemDefinition { id = "strange_symbol", displayName = "奇怪符号拓片", description = "从地下室墙上拓下的符号。", consumable = false });
             Add(new ItemDefinition { id = "silver_coin", displayName = "银币", description = "年代不明的银币。", consumable = false });
             Add(new ItemDefinition { id = "owner_diary", displayName = "老板的日记", description = "咖啡店老板的秘密日记。", consumable = false });
@@ -58,12 +58,6 @@ namespace WalkingIntoNight.TRPG.Inventory
                 EnsureLoaded();
                 return s_items.Values;
             }
-        }
-
-        [System.Serializable]
-        class ItemListWrapper
-        {
-            public List<ItemDefinition> items;
         }
     }
 }

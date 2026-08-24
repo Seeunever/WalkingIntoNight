@@ -2,7 +2,7 @@
   "items": [
     { "id": "flashlight", "displayName": "手电筒", "description": "照亮黑暗角落。", "consumable": false },
     { "id": "notebook", "displayName": "调查笔记", "description": "记录线索的笔记本。", "consumable": false },
-    { "id": "rusty_key", "displayName": "生锈的钥匙", "description": "也许能打开储藏室。", "consumable": false },
+    { "id": "rusty_key", "displayName": "生锈的钥匙", "description": "开启通往地下室的旧铁门。", "consumable": false },
     { "id": "first_aid_kit", "displayName": "急救包", "description": "恢复 3 点 HP。", "consumable": true, "healHp": 3 },
     { "id": "calming_tea", "displayName": "安神茶", "description": "恢复 5 点 SAN。", "consumable": true, "healSan": 5 },
     { "id": "strange_symbol", "displayName": "奇怪符号拓片", "description": "从地下室墙上拓下的符号。", "consumable": false },

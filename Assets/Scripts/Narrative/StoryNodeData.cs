@@ -12,6 +12,12 @@ namespace WalkingIntoNight.TRPG.Narrative
         public string requiredFlag;
         public string blockedByFlag;
         public string requiredItemId;
+        public int requiredDay;
+        public string requiredPeriod;
+        public int requiredMinDay;
+        public int requiredMaxDay;
+        public string requiredRelationship;
+        public string unavailableReason;
     }
 
     [Serializable]
@@ -23,6 +29,7 @@ namespace WalkingIntoNight.TRPG.Narrative
         public string text;
         public string portraitId;
         public string locationId;
+        public bool allowExploration;
         public List<StoryChoiceData> choices = new List<StoryChoiceData>();
         public string nextNodeId;
 
@@ -35,6 +42,7 @@ namespace WalkingIntoNight.TRPG.Narrative
 
         public string flag;
         public bool flagValue = true;
+        public string flagNotice;
         public string itemId;
         public int itemCount = 1;
         public int sanDelta;
@@ -46,6 +54,9 @@ namespace WalkingIntoNight.TRPG.Narrative
 
         public string npcId;
         public string endTitle;
+
+        public int advanceDays;
+        public int advancePeriods;
     }
 
     [Serializable]
@@ -67,6 +78,7 @@ namespace WalkingIntoNight.TRPG.Narrative
         Combat,
         Location,
         NpcHub,
+        AdvanceTime,
         End
     }
 
@@ -84,6 +96,7 @@ namespace WalkingIntoNight.TRPG.Narrative
                 case "combat": return StoryNodeType.Combat;
                 case "location": return StoryNodeType.Location;
                 case "npchub": return StoryNodeType.NpcHub;
+                case "advancetime": return StoryNodeType.AdvanceTime;
                 case "end": return StoryNodeType.End;
                 default: return StoryNodeType.Dialogue;
             }

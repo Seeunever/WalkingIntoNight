@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using WalkingIntoNight.TRPG.Character;
-using WalkingIntoNight.TRPG.Core;
 using WalkingIntoNight.TRPG.Dice;
 using UnityEngine;
 
@@ -8,27 +7,103 @@ namespace WalkingIntoNight.TRPG.Combat
 {
     public class CombatManager
     {
-        public CombatState State { get; private set; }
+        readonly System.Func<int, CheckDifficulty, string, int, int, CheckResult> m_skillCheck;
+        readonly System.Func<int, int, int> m_randomRange;
+        Investigator m_investigator;
+        bool m_actionConsumed;
 
-        public void ClearEncounter()
-        {
-            State = null;
-        }
+        public CombatState State { get; private set; }
         public System.Action OnCombatUpdated;
         public System.Action<string> OnCombatLog;
 
         public bool IsActive => State != null && !State.ended;
 
-        public void StartEncounter(string encounterId, Investigator investigator)
+        public CombatManager(
+            System.Func<int, CheckDifficulty, string, int, int, CheckResult> skillCheck = null,
+            System.Func<int, int, int> randomRange = null)
+        {
+            m_skillCheck = skillCheck ?? ((skill, difficulty, skillId, bonusDice, penaltyDice) =>
+                DiceRoller.SkillCheck(skill, difficulty, skillId, bonusDice, penaltyDice));
+            m_randomRange = randomRange ?? ((minimum, maximum) => Random.Range(minimum, maximum));
+        }
+
+        public void ClearEncounter()
+        {
+            State = null;
+            m_investigator = null;
+            m_actionConsumed = false;
+        }
+
+        public bool TryStartEncounter(string encounterId, Investigator investigator, out string error)
         {
             var def = CombatEncounterDatabase.Get(encounterId);
             if (def == null)
             {
-                Debug.LogWarning($"Unknown encounter: {encounterId}");
-                return;
+                error = $"未知战斗配置：{encounterId ?? "（空）"}。";
+                return false;
             }
 
-            State = new CombatState { encounterId = encounterId, playerTurn = true };
+            return TryStartEncounter(def, investigator, out error);
+        }
+
+        public bool TryStartEncounter(
+            CombatEncounterDefinition definition,
+            Investigator investigator,
+            out string error)
+        {
+            error = null;
+            if (IsActive)
+            {
+                error = "已有战斗正在进行。";
+                return false;
+            }
+
+            // An ended encounter must never leak into a later failed start attempt.
+            if (State != null)
+                ClearEncounter();
+
+            if (investigator == null)
+            {
+                error = "无法开始战斗：调查员不存在。";
+                return false;
+            }
+
+            if (investigator.MaxHP < 1 || investigator.HP < 1 || investigator.HP > investigator.MaxHP)
+            {
+                error = "无法开始战斗：调查员生命值无效。";
+                return false;
+            }
+
+            if (definition == null || string.IsNullOrWhiteSpace(definition.id))
+            {
+                error = "无法开始战斗：配置不存在或缺少 ID。";
+                return false;
+            }
+
+            if (definition.enemies == null || definition.enemies.Count == 0)
+            {
+                error = $"无法开始战斗：{definition.displayName ?? definition.id} 没有有效敌人。";
+                return false;
+            }
+
+            foreach (var enemy in definition.enemies)
+            {
+                if (enemy == null || string.IsNullOrWhiteSpace(enemy.id) ||
+                    enemy.MaxHP < 1 || enemy.HP < 1 || enemy.HP > enemy.MaxHP)
+                {
+                    error = $"无法开始战斗：{definition.displayName ?? definition.id} 包含无效敌人数据。";
+                    return false;
+                }
+            }
+
+            m_investigator = investigator;
+            m_actionConsumed = false;
+            State = new CombatState
+            {
+                encounterId = definition.id,
+                playerTurn = true,
+                turnNumber = 1
+            };
 
             var player = new CombatantData
             {
@@ -42,13 +117,14 @@ namespace WalkingIntoNight.TRPG.Combat
             };
             State.combatants.Add(player);
 
-            foreach (var enemy in def.enemies)
+            foreach (var enemy in definition.enemies)
             {
                 State.combatants.Add(CloneEnemy(enemy));
             }
 
-            Log($"遭遇战开始：{def.displayName}");
-            OnCombatUpdated?.Invoke();
+            Log($"遭遇战开始：{definition.displayName ?? definition.id}");
+            NotifyUpdated();
+            return true;
         }
 
         static CombatantData CloneEnemy(CombatantData src)
@@ -70,20 +146,21 @@ namespace WalkingIntoNight.TRPG.Combat
         public List<CombatantData> GetEnemies() =>
             State?.combatants.FindAll(c => !c.isPlayer && c.HP > 0) ?? new List<CombatantData>();
 
-        public void PlayerAttack(int enemyIndex)
+        public bool PlayerAttack(int enemyIndex, int actionVersion = 0)
         {
-            if (!IsActive || !State.playerTurn) return;
+            if (!CanTakePlayerAction(actionVersion)) return false;
 
             var player = GetPlayer();
             var enemies = GetEnemies();
-            if (player == null || enemyIndex < 0 || enemyIndex >= enemies.Count) return;
+            if (player == null || enemyIndex < 0 || enemyIndex >= enemies.Count) return false;
 
+            m_actionConsumed = true;
             var target = enemies[enemyIndex];
-            var result = DiceRoller.SkillCheck(player.skillFight, CheckDifficulty.Regular, "fight");
-            if (result.IsSuccess)
+            var result = m_skillCheck(player.skillFight, CheckDifficulty.Regular, "fight", 0, 0);
+            if (result != null && result.IsSuccess)
             {
-                var dmg = Random.Range(1, 9) + Mathf.Max(0, GameStateManager.Instance.Investigator.DamageBonus);
-                target.HP -= dmg;
+                var dmg = m_randomRange(1, 9) + Mathf.Max(0, m_investigator?.DamageBonus ?? 0);
+                target.HP = Mathf.Max(0, target.HP - dmg);
                 Log($"{player.displayName} 攻击 {target.displayName} 造成 {dmg} 点伤害。");
             }
             else
@@ -91,31 +168,43 @@ namespace WalkingIntoNight.TRPG.Combat
                 Log($"{player.displayName} 攻击落空。");
             }
 
-            if (target.HP <= 0)
+            if (target.HP == 0)
             {
-                target.HP = 0;
                 Log($"{target.displayName} 被击败。");
             }
 
             EndPlayerTurn();
+            return true;
         }
 
-        public void PlayerDodge()
+        public bool PlayerDodge(int actionVersion = 0)
         {
-            if (!IsActive || !State.playerTurn) return;
-            Log("你采取闪避姿态，本回合防御提升（简化）。");
+            if (!CanTakePlayerAction(actionVersion)) return false;
+
+            m_actionConsumed = true;
+            State.playerDodging = true;
+            Log("你采取闪避姿态：本轮所有敌方攻击承受 1 个惩罚骰。");
             EndPlayerTurn();
+            return true;
         }
 
-        public void PlayerFlee()
+        public bool PlayerFlee(int actionVersion = 0)
         {
-            if (!IsActive) return;
-            var result = DiceRoller.SkillCheck(GetPlayer().skillDodge, CheckDifficulty.Regular, "dodge");
-            if (result.IsSuccess)
+            if (!CanTakePlayerAction(actionVersion)) return false;
+
+            var player = GetPlayer();
+            if (player == null) return false;
+
+            m_actionConsumed = true;
+            var result = m_skillCheck(player.skillDodge, CheckDifficulty.Regular, "dodge", 0, 0);
+            if (result != null && result.IsSuccess)
             {
                 State.ended = true;
                 State.playerFled = true;
+                State.playerWon = false;
+                State.playerTurn = false;
                 Log("你成功逃离战斗。");
+                NotifyUpdated();
             }
             else
             {
@@ -123,35 +212,50 @@ namespace WalkingIntoNight.TRPG.Combat
                 EndPlayerTurn();
             }
 
-            OnCombatUpdated?.Invoke();
+            return true;
         }
 
         void EndPlayerTurn()
         {
-            if (State.ended) return;
+            if (State == null || State.ended) return;
+
             State.playerTurn = false;
             EnemyTurn();
+            CheckEnd();
             if (!State.ended)
             {
+                State.turnNumber++;
                 State.playerTurn = true;
+                m_actionConsumed = false;
             }
 
-            CheckEnd();
-            OnCombatUpdated?.Invoke();
+            NotifyUpdated();
         }
 
         void EnemyTurn()
         {
             var player = GetPlayer();
+            if (player == null)
+            {
+                State.playerDodging = false;
+                return;
+            }
+
+            var penaltyDice = State.playerDodging ? 1 : 0;
             foreach (var enemy in GetEnemies())
             {
                 if (player.HP <= 0) break;
 
-                var result = DiceRoller.SkillCheck(enemy.skillFight, CheckDifficulty.Regular, "fight");
-                if (result.IsSuccess)
+                var result = m_skillCheck(
+                    enemy.skillFight,
+                    CheckDifficulty.Regular,
+                    "fight",
+                    0,
+                    penaltyDice);
+                if (result != null && result.IsSuccess)
                 {
-                    var dmg = Random.Range(1, 7);
-                    player.HP -= dmg;
+                    var dmg = m_randomRange(1, 7);
+                    player.HP = Mathf.Max(0, player.HP - dmg);
                     Log($"{enemy.displayName} 攻击造成 {dmg} 点伤害。");
                 }
                 else
@@ -159,16 +263,19 @@ namespace WalkingIntoNight.TRPG.Combat
                     Log($"{enemy.displayName} 攻击落空。");
                 }
             }
+
+            State.playerDodging = false;
         }
 
         void CheckEnd()
         {
             var player = GetPlayer();
-            if (player.HP <= 0)
+            if (player == null || player.HP <= 0)
             {
-                player.HP = 0;
+                if (player != null) player.HP = 0;
                 State.ended = true;
                 State.playerWon = false;
+                State.playerTurn = false;
                 Log("你倒下了……");
                 return;
             }
@@ -177,6 +284,7 @@ namespace WalkingIntoNight.TRPG.Combat
             {
                 State.ended = true;
                 State.playerWon = true;
+                State.playerTurn = false;
                 Log("战斗胜利！");
             }
         }
@@ -184,9 +292,20 @@ namespace WalkingIntoNight.TRPG.Combat
         public void SyncPlayerToInvestigator()
         {
             var player = GetPlayer();
-            var inv = GameStateManager.Instance?.Investigator;
+            var inv = m_investigator;
             if (player == null || inv == null) return;
             inv.HP = Mathf.Clamp(player.HP, 0, inv.MaxHP);
+        }
+
+        bool CanTakePlayerAction(int actionVersion)
+        {
+            if (!IsActive || !State.playerTurn || m_actionConsumed) return false;
+            return actionVersion <= 0 || actionVersion == State.turnNumber;
+        }
+
+        void NotifyUpdated()
+        {
+            OnCombatUpdated?.Invoke();
         }
 
         void Log(string msg)

@@ -1,9 +1,19 @@
 {
   "npcs": [
-    { "id": "barista_mei", "displayName": "店员小梅", "description": "夜班店员，神情疲惫。", "portraitId": "rabbit", "defaultNodeId": "npc_mei_talk", "locationIds": ["cafe_main"] },
-    { "id": "regular_chen", "displayName": "常客老陈", "description": "总在角落读报的老人。", "portraitId": "bear", "defaultNodeId": "npc_chen_talk", "locationIds": ["cafe_main"] },
-    { "id": "stray_cat", "displayName": "店猫", "description": "蹲在柜台上的猫。", "portraitId": "fox", "defaultNodeId": "npc_cat_talk", "locationIds": ["cafe_main", "cafe_storage"] },
-    { "id": "silent_woman", "displayName": "黑衣女人", "description": "只在关店后出现。", "portraitId": "swan", "defaultNodeId": "npc_woman_talk", "locationIds": ["cafe_basement"] },
-    { "id": "owner_ghost", "displayName": "老板的影子", "description": "不稳定的存在。", "portraitId": "bear", "defaultNodeId": "npc_owner_talk", "locationIds": ["cafe_basement"] }
+    { "id": "barista_mei", "displayName": "店员小梅", "description": "夜班店员，神情疲惫。", "portraitId": "mei_barista_v1", "defaultNodeId": "npc_mei_talk", "locationIds": ["cafe_main"] },
+    { "id": "regular_chen", "displayName": "常客老陈", "description": "总在角落读报的老人。", "portraitId": "chen_regular_v2", "defaultNodeId": "npc_chen_talk", "locationIds": ["cafe_main"] },
+    { "id": "stray_cat", "displayName": "店猫", "description": "蹲在柜台上的猫。", "portraitId": "shop_cat_v1", "defaultNodeId": "npc_cat_talk", "locationIds": ["cafe_main", "cafe_storage"] },
+    {
+      "id": "silent_woman",
+      "displayName": "黑衣女人",
+      "description": "只在关店后的夜间出现。",
+      "portraitId": "",
+      "defaultNodeId": "npc_woman_talk",
+      "locationIds": ["cafe_basement"],
+      "schedules": [
+        { "day": 0, "period": "night", "locationId": "cafe_basement" }
+      ]
+    },
+    { "id": "owner_ghost", "displayName": "老板的影子", "description": "不稳定的存在。", "portraitId": "", "defaultNodeId": "npc_owner_talk", "locationIds": ["cafe_basement"] }
   ]
 }

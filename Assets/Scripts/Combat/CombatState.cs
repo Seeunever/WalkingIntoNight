@@ -22,6 +22,8 @@ namespace WalkingIntoNight.TRPG.Combat
         public List<CombatantData> combatants = new List<CombatantData>();
         public int activeIndex;
         public bool playerTurn = true;
+        public int turnNumber = 1;
+        public bool playerDodging;
         public bool ended;
         public bool playerWon;
         public bool playerFled;

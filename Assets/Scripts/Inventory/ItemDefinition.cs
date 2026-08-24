@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WalkingIntoNight.TRPG.Inventory
 {
@@ -12,5 +13,11 @@ namespace WalkingIntoNight.TRPG.Inventory
         public int healHp;
         public int healSan;
         public string useNodeId;
+    }
+
+    [Serializable]
+    public class ItemListWrapper
+    {
+        public List<ItemDefinition> items;
     }
 }

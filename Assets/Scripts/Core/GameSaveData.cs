@@ -7,6 +7,9 @@ namespace WalkingIntoNight.TRPG.Core
     [Serializable]
     public class GameSaveData
     {
+        public const int CurrentVersion = 1;
+
+        public int version;
         public string scenarioId;
         public string nodeId;
         public string locationId;
@@ -16,5 +19,7 @@ namespace WalkingIntoNight.TRPG.Core
         public string postCombatNodeId;
         public bool hasPendingCombatReturn;
         public long savedAtTicks;
+        public int currentDay = 1;
+        public string currentPeriod = "morning";
     }
 }
